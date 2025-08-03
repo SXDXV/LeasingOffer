@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using LeasingOfferBack.Data;
+﻿using LeasingOfferBack.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LeasingOfferBack.Controllers
 {
@@ -8,28 +7,18 @@ namespace LeasingOfferBack.Controllers
     [Route("api/[controller]")]
     public class SuppliersController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly ISupplierService _service;
 
-        public SuppliersController(AppDbContext context)
+        public SuppliersController(ISupplierService service)
         {
-            _context = context;
+            _service = service;
         }
 
         [HttpGet("top")]
         public async Task<IActionResult> GetTopSuppliers()
         {
-            var topSuppliers = await _context.Suppliers
-                .Select(s => new
-                {
-                    s.Id,
-                    s.Name,
-                    OfferCount = _context.Offers.Count(o => o.SupplierId == s.Id)
-                })
-                .OrderByDescending(s => s.OfferCount)
-                .Take(3)
-                .ToListAsync();
-
-            return Ok(topSuppliers);
+            var result = await _service.GetTopSuppliersAsync();
+            return Ok(result);
         }
     }
 }

@@ -17,7 +17,9 @@ public class OfferService : IOfferService
 
     public async Task<OfferSearchResponse> SearchOffersAsync(OfferSearchRequest request)
     {
-        var query = _context.Offers.AsQueryable();
+        var query = _context.Offers
+            .Include(o => o.Supplier)
+            .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(request.Brand))
             query = query.Where(o => o.Brand.Contains(request.Brand));
@@ -25,8 +27,11 @@ public class OfferService : IOfferService
         if (!string.IsNullOrWhiteSpace(request.Model))
             query = query.Where(o => o.Model.Contains(request.Model));
 
-        if (request.SupplierId.HasValue)
-            query = query.Where(o => o.SupplierId == request.SupplierId.Value);
+        if (!string.IsNullOrWhiteSpace(request.SupplierName))
+            query = query.Where(o => o.Supplier.Name.Contains(request.SupplierName));
+
+        //if (request.SupplierId.HasValue)
+        //    query = query.Where(o => o.SupplierId == request.SupplierId.Value);
 
         var totalCount = await query.CountAsync();
 
@@ -37,6 +42,7 @@ public class OfferService : IOfferService
                 Brand = o.Brand,
                 Model = o.Model,
                 SupplierId = o.SupplierId,
+                SupplierName = o.Supplier.Name,
                 RegisteredAt = o.RegisteredAt
             })
             .ToListAsync();

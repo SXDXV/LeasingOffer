@@ -3,9 +3,10 @@
     public class OfferDto
     {
         public int Id { get; set; }
-        public string Brand { get; set; } = null!;
-        public string Model { get; set; } = null!;
-        public int SupplierId { get; set; }
+        public string Brand { get; set; }
+        public string Model { get; set; }
+        public int SupplierId { get; set; }  //для логики
+        public string SupplierName { get; set; }  // для отображения
         public DateTime RegisteredAt { get; set; }
     }
 

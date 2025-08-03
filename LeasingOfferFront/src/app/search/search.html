@@ -1,0 +1,31 @@
+<div class="offers-section">
+  <h2>Поиск офферов</h2>
+
+  <div class="search-form">
+    <label>
+      Марка:
+      <input [(ngModel)]="brand" />
+    </label>
+    <label>
+      Модель:
+      <input [(ngModel)]="model" />
+    </label>
+    <label>
+      Поставщик:
+      <input [(ngModel)]="supplierName" />
+    </label>
+
+    <button (click)="search()">Поиск</button>
+    <button (click)="reset()">Сброс</button>
+  </div>
+
+  <p *ngIf="loading()">Загрузка...</p>
+
+  <div *ngIf="!loading()" class="offers-grid one-column">
+    <div class="offer-card" *ngFor="let offer of offers()">
+      <h3>{{ offer.brand }} {{ offer.model }}</h3>
+      <p><strong>Поставщик:</strong> {{ offer.supplierName }}</p>
+      <p><strong>Дата регистрации:</strong> {{ offer.registeredAt | date:'d MMMM y, HH:mm' }}</p>
+    </div>
+  </div>
+</div>

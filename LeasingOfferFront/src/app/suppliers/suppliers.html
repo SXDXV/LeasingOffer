@@ -1,0 +1,10 @@
+<div class="suppliers-section">
+  <h2>Популярные поставщики</h2>
+
+  <div class="suppliers-grid">
+    <div class="supplier-card" *ngFor="let supplier of topSuppliers()">
+      <p class="supplier-name">{{ supplier.name }}</p>
+      <p class="offer-count">{{ supplier.offerCount }} офферов</p>
+    </div>
+  </div>
+</div>

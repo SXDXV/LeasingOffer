@@ -1,0 +1,9 @@
+<h2>Всего офферов: {{ offers().length }}</h2>
+
+<div class="offers-list">
+  <div class="offer-card" *ngFor="let offer of offers()">
+    <h3>{{ offer.brand }} {{ offer.model }}</h3>
+    <p><strong>Поставщик:</strong> {{ offer.supplierName }}</p>
+    <p><strong>Дата регистрации:</strong> {{ offer.registeredAt | date:'d MMMM y, HH:mm' }}</p>
+  </div>
+</div>
